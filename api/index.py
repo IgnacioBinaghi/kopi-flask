@@ -5,7 +5,7 @@ import csv
 from util.get_new_workspaces import get_cafes
 
 
-app = Flask('__name__')
+app = Flask(__name__, template_folder='templates')
 
 
 @app.route("/home")
