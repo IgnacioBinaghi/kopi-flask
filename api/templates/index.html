@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  </head>
+  <body class="bg-gray-100">
+    <script src=
+'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js'>
+  </script>
+    <div class="flex">
+      <!-- Sidebar -->
+      <div class="w-64 p-4 bg-green-900">
+        <div class="flex items-center justify-between mb-8">
+          <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="h-8 w-auto" />
+        </div>
+        <nav>
+          <ul class="space-y-2 text-sm">
+            <li><a class="text-white flex items-center px-4 py-2 rounded-md bg-green-700 hover:bg-green-700 hover:text-white">Home</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white">Discover</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white">Friends</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white">Chat</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white">Workspaces</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white">Profile</a></li>
+          </ul>
+        </nav>
+        <div class="absolute bottom-0 left-0 p-4">
+          <a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white">Log out</a>
+        </div>
+      </div>
+
+      <div class="flex-grow bg-gray-100 p-4">
+        <div class="flex">
+            <div class="flex items-center m-2">
+                <h1 class="text-3xl font-semibold mb-5 mr-10">Workspaces Near You</h1>
+                <span class="text-sm text-gray-900 mb-3">5 miles</span>
+            </div>
+            <header class="flex justify-end items-center mb-8 ml-auto">
+                <div class="flex items-center">
+                    <div class="dropdown">
+                        <div class="dropdown-trigger">
+                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" style="border: none; background-color: #f3f4f6;">
+                                <span>{{username}}</span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-angle-down" aria-hidden="false"></i>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item">
+                                    Profile
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    Settings
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    Help
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+        
+          </header>
+        <!-- Main content goes here -->
+        <div class="flex flex-wrap">
+            <h1 class="text-m mb-2 w-full m-2">All</h1>
+            {% for cafe in cafes %}
+              <div class="flex flex-col items-center p-4 rounded-lg bg-white shadow w-full sm:w-1/2 md:w-1/3 lg:w-1/6 m-2">
+                <img class="w-auto h-12.5 rounded-lg object-cover" src="{{cafe[2]}}" alt="Profile picture">
+                <a href="{{cafe[3]}}" target="_blank"><h2 class="text-lg font-semibold mt-2">{{cafe[0]}}</h2></a>
+                <p class="text-sm text-gray-600">{{cafe[1]}}</p>
+                <div class="flex items-center mt-4">
+                  <span class="text-sm text-gray-600 ml-2">{{cafe[4]}} Attending</span>
+                </div>
+                <div class="flex mt-4 space-x-4">
+                    <button class="px-4 py-2 md:px-9 md:py-2 rounded-lg border border-gray-300 text-base md:text-lg font-medium text-gray-700 hover:bg-gray-100">More</button>
+                    <button class="px-4 py-2 md:px-9 md:py-2 rounded-lg bg-green-900 text-white text-base md:text-lg font-medium hover:bg-green-700">Join</button>
+                  </div>                  
+              </div>
+            {% endfor %}
+          
+
+            {% for cafe in communities %}
+                <h1 class="text-m mb-2 mt-2 w-full">{{cafe}}</h1>
+                <div class="flex flex-col items-center p-4 rounded-lg bg-white shadow w-full sm:w-1/2 md:w-1/3 lg:w-1/4 m-2">
+                    <img class="w-full h-auto rounded-lg" src="https://picsum.photos/200" alt="Profile picture">
+                    <h2 class="text-lg font-semibold mt-2">{{location}}</h2>
+                    <p class="text-sm text-gray-600">{{address}}</p>
+                    <div class="flex items-center mt-4">
+                        <span class="text-sm text-gray-600 ml-2">{{attending}} Attending</span>
+                    </div>
+                    <div class="flex mt-4 space-x-4">
+                        <button class="px-9 py-2 rounded-lg border border-gray-300 text-base md:text-lg font-medium text-gray-700 hover:bg-gray-100">More</button>
+                        <button class="px-9 py-2 rounded-lg bg-green-900 text-white text-base md:text-lg font-medium hover:bg-green-700">Join</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        </div>
+    
+        
+
+
+      </div>
+    </div>
+    <script>
+        const dropdown =
+              document.querySelector('.dropdown');
+        const active =
+              document.querySelector('.is-active')
+        document.body.addEventListener('click', function () {
+          if (active) {
+            dropdown.classList.remove('is-active')
+          }
+        })
+        dropdown.addEventListener('click', function (event) {
+          event.stopPropagation();
+          this.classList.toggle('is-active');
+        });
+      </script>
+  </body>
+  </html>
+  
+</html>
