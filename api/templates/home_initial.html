@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  </head>
+  <body class="bg-gray-100">
+    <script src=
+'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js'>
+  </script>
+    <div class="flex">
+      <!-- Sidebar -->
+      <div class="w-64 p-4 bg-green-900">
+        <div class="flex items-center justify-between mb-8">
+          <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="h-8 w-auto" />
+        </div>
+        <nav>
+          <ul class="space-y-2 text-sm">
+            <li><a class="text-white flex items-center px-4 py-2 rounded-md bg-green-700 hover:bg-green-700 hover:text-white">Home</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white">Discover</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white">Friends</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white">Chat</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white">Workspaces</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white">Profile</a></li>
+          </ul>
+        </nav>
+        <div class="absolute bottom-0 left-0 p-4">
+          <a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white">Log out</a>
+        </div>
+      </div>
+
+      <div class="flex-grow bg-gray-100 p-4">
+        <div class="flex">
+            <header class="flex justify-end items-center mb-8 ml-auto">
+                <div class="flex items-center">
+                    <div class="dropdown">
+                        <div class="dropdown-trigger">
+                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" style="border: none; background-color: #f3f4f6;">
+                                <span>{{username}}</span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-angle-down" aria-hidden="false"></i>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item">
+                                    Profile
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    Settings
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    Help
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+        
+          <!-- Parent element -->
+        <!-- Parent element -->
+<!-- Parent element -->
+<div class="min-h-screen flex-grow flex items-center justify-center -mt-20">
+    <!-- Centered div -->
+    <div class="p-10 max-w-md mx-0 flex flex-col items-center justify-center bg-white rounded-lg shadow-lg" style="border: solid .5px rgb(81, 142, 81);">
+      <div id="preferences">
+        <form id="location-preferences-form" class="text-center" action="/" method="POST">
+          <label for="preferences" class="text-2xl font-semibold">Preferences</label><br><br>
+          <form id="my-form" class="border rounded p-2 mb-4 w-200 text-center">
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                    <input type="checkbox" name="preferences" value="Quiet" class="mr-2">
+                    <label for="Quiet" class="text-green-700">Quiet</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="preferences" value="Free Wifi" class="mr-2">
+                    <label for="Free Wifi" class="text-green-700">Free Wifi</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="preferences" value="Outlets" class="mr-2">
+                    <label for="Outlets" class="text-green-700">Outlets</label>
+                </div>
+                <div style="display: inline;">
+                    <input type="checkbox" name="preferences" value="Reservations" class="mr-2">
+                    <label for="Wheelchair Accessible" class="text-green-700">Wheelchair Accessible</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="preferences" value="Bike Parking" class="mr-2">
+                    <label for="Bike Parking" class="text-green-700">Bike Parking</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="preferences" value="Moderate Noise" class="mr-2">
+                    <label for="Moderate Noise" class="text-green-700">Moderate Noise</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="preferences" value="Good For Kids" class="mr-2">
+                    <label for="Good For Kids" class="text-green-700">Good For Kids</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="preferences" value="GVegan Options" class="Gmr-2">
+                    <label for="Vegan Options" class="text-green-700">Vegan Options</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="Gpreferences" value="Outdoor Seating" class="Gmr-2">
+                    <label for="Outdoor Seating" class="text-green-700">Outdoor Seating</label>
+                </DIV></div><br>
+  
+          <!-- List -->
+          <div id="my-list" class="flex flex-wrap"></div>
+  
+          <label for="text" class="block mb-2 font-bold text-green-900">Where are you located?</label>
+          <input type="text" name="location" placeholder="New York" class="border border-black-sm rounded-lg pl-3"><br><br>
+
+          <input type="submit" value="Submit" onclick="event.preventDefault(); document.getElementById('location-preferences-form').submit();" class="px-9 py-2 rounded-lg bg-green-900 text-white text-base md:text-lg font-medium hover:bg-green-700 cursor-pointer">
+
+        </form>
+      </div>
+    </div>
+  </div>
+  
+    
+        
+
+
+      </div>
+    </div>
+    <script>
+        const dropdown =
+              document.querySelector('.dropdown');
+        const active =
+              document.querySelector('.is-active')
+        document.body.addEventListener('click', function () {
+          if (active) {
+            dropdown.classList.remove('is-active')
+          }
+        })
+        dropdown.addEventListener('click', function (event) {
+          event.stopPropagation();
+          this.classList.toggle('is-active');
+        });
+      </script>
+  </body>
+  </html>
+  
+</html>
