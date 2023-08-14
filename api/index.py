@@ -1,17 +1,21 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
 from util.get_quote import get_quote
-import json
-import csv
 from util.get_new_workspaces import get_cafes
-
+from util.get_coord import get_location
 
 app = Flask('__name__')
 
-
-@app.route("/home")
+@app.route("/", methods=["GET", "POST"])
 def home():
-    cafes = get_cafes()
-    return render_template("index.html", username = 'ignacio', cafes=cafes)
+    URL = "http://maps.googleapis.com/maps/api/geocode/json"
+    if request.method == 'POST':
+        preferences = request.form.getlist('preferences')
+        location = request.form.get("location")
+        location = get_location(location)
+        cafes = get_cafes(location)
+        print(cafes)
+        return render_template('home.html', username='ignacio', cafes = cafes)
+    return render_template('home_initial.html', username='ignacio')
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -37,4 +41,4 @@ def register():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
