@@ -3,7 +3,7 @@ from util.get_quote import get_quote
 from util.get_new_workspaces import get_cafes
 from util.get_coord import get_location
 
-app = Flask('__name__')
+app = Flask('__name__',template_folder='templates')
 
 @app.route("/", methods=["GET", "POST"])
 def home():
