@@ -7,6 +7,3 @@ def get_location(place):
         return str(location)
     else:
         return None
-    
-
-print(get_location('brooklyn'))
