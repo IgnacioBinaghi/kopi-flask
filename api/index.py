@@ -1,9 +1,9 @@
 from flask import Flask, render_template, url_for, flash, redirect, request, session, flash
 from flask import render_template, url_for, flash, redirect, request, session, flash
 import flask_login
-from util.get_new_workspaces import get_cafes
-from util.get_coord import get_location
-from util.kopi_db import *
+from get_new_workspaces import get_cafes
+from get_coord import get_location
+from kopi_db import *
 import pickle
 
 app = Flask('__name__', template_folder='templates')
