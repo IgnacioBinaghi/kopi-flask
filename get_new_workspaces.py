@@ -22,17 +22,5 @@ def get_cafes(location):
             cafes.append([name, address, image_url, url, attending])
         random.shuffle(cafes)
     except:
-        cafes = []
-        PARAMETERS = {'term': 'cafe', 'location':'New York','limit': 50}
-
-        response = requests.get(url=ENDPOINT, params=PARAMETERS, headers=HEADERS)
-        businesses = response.json()['businesses']
-        for business in businesses:
-            name = business['name']
-            address = ' '.join(business['location']['display_address'])
-            image_url = business['image_url']
-            url = business['url']
-            attending = random.randint(0, 10)
-            cafes.append([name, address, image_url, url, attending])
-        random.shuffle(cafes)
+        cafes = False
     return cafes

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Include necessary meta tags and stylesheets -->
+    <title>{{ username }}'s Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Other stylesheets and scripts -->
+</head>
+<body>
+    <div class="bg-gray-100 h-screen flex justify-center items-center">
+        <div class="max-w-xl bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="bg-green-700 p-6 text-white text-center">
+                <h1 class="text-3xl font-bold">{{ username }}</h1>
+                <p class="text-lg">{{ bio }}</p>
+            </div>
+            <div class="p-6">
+                <h2 class="text-xl font-semibold mb-4">Workspaces</h2>
+                <ul class="divide-y divide-gray-200">
+                    {% for workspace in workspaces %}
+                    <li class="py-3">
+                        <a href="{{ workspace[3] }}" class="text-green-600 hover:underline">{{ workspace[0] }}</a>
+                        <p class="text-gray-500">{{ workspace[1] }}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="p-6 text-center">
+                <a href=/ class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-600 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 inline-block align-middle mr-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+            
+            <!-- Edit Bio Form -->
+            <form action="{{ url_for('my_profile') }}" method="post" class="m-4">
+                <textarea name="bio" class="border rounded p-2 px-4 w-full mb-4" placeholder="{{ bio }}"></textarea>
+                <div class="flex justify-center">
+                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-600 cursor-pointer">Update Bio</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

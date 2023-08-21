@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  </head>
+  <body class="bg-gray-100">
+    <script src=
+'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js'>
+  </script>
+    <div class="flex">
+      <!-- Sidebar -->
+      <div class="w-64 p-4 bg-green-900 h-screen">
+        <div class="flex items-center justify-between mb-8">
+          <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="h-8 w-auto"/>
+        </div>
+        <nav>
+          <ul class="space-y-2 text-sm">
+            <li><a href=/ class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Home</a></li>
+            <li><a href=search class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Discover</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md bg-green-700 hover:bg-green-700 hover:text-white transition-all">Friends</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Chat</a></li>
+            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Workspaces</a></li>
+            <li><a href=my_profile class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Profile</a></li>
+          </ul>
+        </nav>
+        <div class="absolute bottom-0 left-0 p-4">
+          <a href=log_out class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Log out</a>
+        </div>
+      </div>
+
+      <div class="flex-grow bg-gray-100 p-4">
+        <div class="flex">
+            <header class="flex justify-end items-center ml-auto">
+                <div class="flex items-center">
+                    <div class="dropdown">
+                        <div class="dropdown-trigger">
+                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" style="border: none; background-color: #f3f4f6;">
+                                <span>{{username}}</span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-angle-down" aria-hidden="false"></i>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                                <a href=/my_profile class="dropdown-item">
+                                    Profile
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    Settings
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    Help
+                                </a>
+                                <a href=log_out class="dropdown-item">
+                                    Logout
+                                </a>
+                                <a href=delete_acc class="dropdown-item">
+                                  Delete Account
+                              </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        {% if requests_received != [] %}
+            <p class="font-semibold text-1xl text-green-600">Friend Requests</p>
+            {% for friend in requests_received %}
+            <div class="mr-10">
+                <div class="flex items-center justify-between bg-gray-200 rounded-lg p-4">
+                    <div class="flex items-center">
+                        <p class="ml-2 font-semibold text-gray-700">{{ friend }}</p>
+                    </div>
+                    <div class="flex">
+                        <button class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-all" onclick="acceptRequest('{{ friend }}')">Accept Request</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+        
+            
+        {% if friends != [] %}
+            <p class="font-semibold text-1xl text-green-700">Friends</p>
+        {% for friend in friends %}
+            <div class="mr-10">
+                <div class="flex items-center justify-between bg-gray-200 rounded-lg p-4">
+                    <div class="flex items-center">
+                        <a href="/{{ friend }}" class="ml-2 font-semibold text-gray-700">{{ friend }}</a>
+                    </div>
+                    <div class="flex">
+                        <button class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-l-lg transition-all">Chat</button>
+                        <button class="bg-red-500 text-white rounded-r-lg px-4 py-2 hover:bg-red-400 transition-all" onclick="removeFriend('{{ friend }}')">Remove</button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="font-semibold text-red-600">No friends</p>
+    {% endif %}
+    
+
+    <h1 class="text-1xl font-bold mt-10">Add New Friends</h1>
+    <div class="min-h-min flex flex-col items-center justify-center w-full"> <!-- Changed flex-grow to flex-col -->
+        <input type="text" id="search" placeholder="Search users..." class="border rounded w-full py-2 px-3 mb-4 border-green-500 focus:ring-green-500 focus:border-green-500" />
+        <ul id="users" class="divide-y divide-gray-200">
+            <!-- User list will be dynamically populated here -->
+        </ul>
+    </div>
+
+    <script>
+        // Get the users from the Flask app
+        const users = {{ users|tojson }};
+    
+        const search = document.querySelector('#search');
+        const usersList = document.querySelector('#users');
+    
+        // Function to create an `li` element for a user
+        function createUserElement(name) {
+            const li = document.createElement('li');
+            li.classList.add('flex', 'justify-between', 'items-center', 'py-4');
+    
+            const span = document.createElement('span');
+            span.textContent = name;
+            li.appendChild(span);
+    
+            const button = document.createElement('button');
+            button.classList.add('bg-green-700', 'text-white', 'rounded', 'px-4', 'py-2', 'hover:bg-green-600');
+            button.textContent = 'Send Request';
+            li.appendChild(button);
+    
+            button.addEventListener('click', async () => {
+                const response = await fetch('/send_request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `name=${encodeURIComponent(name)}`
+                });
+    
+                if (response.ok) {
+                    const text = await response.text();
+                    button.replaceWith(document.createTextNode(text));
+    
+                    const index = users.indexOf(name);
+                    if (index > -1) {
+                        users.splice(index, 1);
+                    }
+    
+                    updateUsers(search.value);
+                }
+            });
+    
+            return li;
+        }
+
+        async function removeFriend(name) {
+        const response = await fetch('/remove_friend', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `name=${encodeURIComponent(name)}`
+        });
+
+        if (response.ok) {
+            const text = await response.text();
+            console.log(`${name} removed: ${text}`);
+            // Add logic to update your UI or list of friends here
+            
+            // Assuming you want to remove the friend UI
+            const friendContainer = document.querySelector(`#friend-${name}`);
+            if (friendContainer) {
+                friendContainer.remove();
+            }
+            location.reload();
+        }
+    }
+    
+        // Function to update the list of users based on the search query
+        function updateUsers(query) {
+            usersList.innerHTML = '';
+    
+            const filteredUsers = users.filter(name => name.toLowerCase().includes(query.toLowerCase()));
+    
+            filteredUsers.forEach(name => {
+                const li = createUserElement(name);
+                usersList.appendChild(li);
+            });
+        }
+    
+        // Update the list of users when the page loads
+        updateUsers('');
+    
+        search.addEventListener('input', event => {
+            updateUsers(event.target.value);
+        });
+    
+        // Function to handle accepting friend requests
+        async function acceptRequest(name) {
+        const response = await fetch('/accept_request', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `name=${encodeURIComponent(name)}`
+        });
+
+        if (response.ok) {
+            const text = await response.text();
+            console.log(`Friend request accepted from ${name}: ${text}`);
+            // Add logic to update your UI or list of friends here
+
+            // Assuming you want to remove the accepted friend request UI
+            const requestContainer = document.querySelector(`#request-${name}`);
+            if (requestContainer) {
+                requestContainer.remove();
+            }
+            location.reload();
+        }
+    }
+    </script>
+    
+  
+    
+        
+
+
+      </div>
+    </div>
+    <script>
+        const dropdown =
+              document.querySelector('.dropdown');
+        const active =
+              document.querySelector('.is-active')
+        document.body.addEventListener('click', function () {
+          if (active) {
+            dropdown.classList.remove('is-active')
+          }
+        })
+        dropdown.addEventListener('click', function (event) {
+          event.stopPropagation();
+          this.classList.toggle('is-active');
+        });
+      </script>
+  </body>
+  </html>
+  
+</html>

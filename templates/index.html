@@ -21,10 +21,10 @@
         <ul class="space-y-2 text-sm">
           <li><a class="text-white flex items-center px-4 py-2 rounded-md bg-green-700 hover:bg-green-700 hover:text-white transition-all">Home</a></li>
           <li><a href=search class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Discover</a></li>
-          <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Friends</a></li>
+          <li><a href=friends class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Friends</a></li>
           <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Chat</a></li>
           <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Workspaces</a></li>
-          <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Profile</a></li>
+          <li><a href=my_profile class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Profile</a></li>
         </ul>
       </nav>
       <div class="absolute bottom-0 left-0 p-4">
@@ -46,7 +46,7 @@
                       </div>
                       <div class="dropdown-menu" id="dropdown-menu" role="menu">
                           <div class="dropdown-content">
-                              <a href="#" class="dropdown-item">
+                              <a href=my_profile class="dropdown-item">
                                   Profile
                               </a>
                               <a href="#" class="dropdown-item">
@@ -71,37 +71,51 @@
         <div class="w-1/2 p-4">
           <h2 class="text-black text-3xl font-bold mb-4">Joined Workspaces</h2>
           <div class="flex flex-wrap">
-            
-            <div class="mr-10">
-            {% if workspaces != [] %}
-              {% for cafe in workspaces %}
-                  <div class="flex flex-col items-center p-4 rounded-lg bg-white shadow w-auto m-2">
-                      <img class="w-auto h-auto rounded-lg object-cover" src="{{cafe[2]}}" alt="Profile picture">
-                      <a href="{{cafe[3]}}" target="_blank"><h2 class="text-lg font-semibold mt-2">{{cafe[0]}}</h2></a>
-                      <p class="text-sm text-gray-600">{{cafe[1]}}</p>
-                      <div class="flex items-center mt-4">
-                          <span class="text-sm text-gray-600 ml-2">{{cafe[4]}} Attending</span>
+              {% if workspaces != [] %}
+                  {% for cafe in workspaces %}
+                      <div class="flex flex-col items-center p-4 rounded-lg bg-white shadow w-auto m-2"
+                           data-cafe-name="{{cafe[0]}}" data-address="{{cafe[1]}}"
+                           style="display: inline-flex; margin: 0.5rem;">
+                          <img class="w-auto h-auto rounded-lg object-cover" src="{{cafe[2]}}" alt="Profile picture">
+                          <a href="{{cafe[3]}}" target="_blank">
+                              <h2 class="text-lg font-semibold mt-2">{{cafe[0]}}</h2>
+                          </a>
+                          <p class="text-sm text-gray-600">{{cafe[1]}}</p>
+                          <div class="flex items-center mt-4">
+                              <span class="text-sm text-gray-600 ml-2">{{cafe[4]}} Attending</span>
+                          </div>
+                          <div class="flex mt-4 space-x-4">
+                              <button onclick="remove('{{cafe[2]}}', '{{cafe[3]}}', '{{cafe[0]}}', '{{cafe[1]}}', '{{cafe[4]}}');"
+                                      class="px-4 py-2 md:px-9 md:py-2 rounded-lg bg-red-700 text-white text-base md:text-lg font-medium hover:bg-red-600 transition-all">
+                                  Remove Workspace
+                              </button>
+                              <button class="px-4 py-2 md:px-9 md:py-2 rounded-lg border border-gray-300 text-base md:text-lg font-medium text-gray-700 hover:bg-gray-100">
+                                  More
+                              </button>
+                          </div>
                       </div>
-                      <div class="flex mt-4 space-x-4">
-                          <button class="px-4 py-2 md:px-9 md:py-2 rounded-lg border border-gray-300 text-base md:text-lg font-medium text-gray-700 hover:bg-gray-100">More</button>
-                      </div>                  
-                  </div>
-              {% endfor %}
-          {% endif %}
-
+                  {% endfor %}
+              {% endif %}
+          </div>
+      </div>
+      
+      <div class="w-1/2 p-4">
           <h2 class="text-black text-3xl font-bold mb-4">Friends</h2>
-          {% if workspaces != [] %}
+          <div class="flex flex-wrap">
+          {% if friends != [] %}
               {% for friend in friends %}
-                  <div class="mr-10">
+                  <div class="mr-10 mb-5">
                       <div class="flex items-center justify-between bg-gray-200 rounded-lg p-4">
                           <div class="flex items-center">
                               <p class="ml-2 font-semibold text-gray-700">{{friend}}</p>
                           </div>
-                          <button class="ml-5 bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-all">More</button>
+                          <a href="/{{friend}}" class="ml-5 bg-green-700 hover:bg-green-600 hover:text-white text-white font-bold py-2 px-4 rounded-lg transition-all">more</a>
                       </div>
                   </div>
               {% endfor %}
           {% endif %}
+        </div>
+    </div>
           
           </div>
         </div>
@@ -123,6 +137,38 @@
         event.stopPropagation();
         this.classList.toggle('is-active');
       });
+
+
+      function removeWorkspaceElement(workspaceDiv) {
+          // Remove the workspace element from the DOM
+          workspaceDiv.remove();
+      }
+
+      function remove(pic, yelp, cafe_name, address, attending) {
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/remove_workspace');
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onload = function () {
+              if (xhr.status === 200) {
+                  // Handle successful response
+                  // Get the workspace element to remove
+                  const workspaceDiv = document.querySelector(`[data-cafe-name="${cafe_name}"][data-address="${address}"]`);
+                  if (workspaceDiv) {
+                      removeWorkspaceElement(workspaceDiv);
+                  }
+              } else {
+                  // Handle error
+              }
+          };
+          xhr.send(JSON.stringify({
+              pic: pic,
+              yelp: yelp,
+              cafe_name: cafe_name,
+              address: address,
+              attending: attending
+          }));
+      }
+
     </script>
   </body>
 </html>

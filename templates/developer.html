@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Developer Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <div class="flex items-center mb-4">
+          <div class="text-2xl font-bold mr-2 text-green-500">Users: </div>
+          <div class="text-4xl font-extrabold text-green-700">{{users|length}}</div>
+        </div>
+        <h1 class="text-2xl font-bold mb-4 text-green-500">Developer Dashboard</h1>
+        <input type="text" id="search" placeholder="Search users..." class="border rounded w-full py-2 px-3 mb-4 border-green-500 focus:ring-green-500 focus:border-green-500" />
+        <ul id="users" class="divide-y divide-gray-200"></ul>
+      </div>      
+    <script>
+        // Get the users from the Flask app
+        const users = {{ users|tojson }};
+
+        const search = document.querySelector('#search');
+        const usersList = document.querySelector('#users');
+
+        // Function to update the list of users based on the search query
+        function updateusers(query) {
+        // Clear the current list of users
+        usersList.innerHTML = '';
+
+        // Filter the users based on the search query
+        const filteredusers = users.filter(name => name.toLowerCase().includes(query.toLowerCase()));
+
+        // Loop through the filtered users and create an `li` element for each one
+        filteredusers.forEach(name => {
+            const li = document.createElement('li');
+            li.classList.add('flex', 'justify-between', 'items-center', 'py-4');
+
+            // Create a `span` element to display the name
+            const span = document.createElement('span');
+            span.textContent = name;
+            li.appendChild(span);
+
+            // Create a `button` element to remove the name
+            const button = document.createElement('button');
+            button.classList.add('bg-red-500', 'text-white', 'rounded', 'px-4', 'py-2', 'hover:bg-red-400');
+            button.textContent = 'Remove';
+            li.appendChild(button);
+
+            // Add an event listener to the button to remove the account when clicked
+            button.addEventListener('click', async () => {
+            // Make a POST request to the /remove_account route with the name of the account to remove
+            const response = await fetch('/remove_account', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `name=${encodeURIComponent(name)}`
+            });
+
+            // Check if the response was successful
+            if (response.ok) {
+                // Get the response text
+                const text = await response.text();
+
+                // Replace the button with the response text
+                button.replaceWith(document.createTextNode(text));
+
+                // Remove the account from our local list of users
+                const index = users.indexOf(name);
+                if (index > -1) {
+                users.splice(index, 1);
+                }
+
+                // Update the list of users
+                updateusers(search.value);
+            }
+            });
+
+            // Append the `li` element to the list of users
+            usersList.appendChild(li);
+        });
+        }
+
+        // Update the list of users when the page loads
+        updateusers('');
+
+        // Add an event listener to the search bar to update the list of users when the user types
+        search.addEventListener('input', event => {
+        updateusers(event.target.value);
+        });
+    </script>
+  </body>
+</html>

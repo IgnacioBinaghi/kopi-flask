@@ -20,11 +20,11 @@
         <nav>
           <ul class="space-y-2 text-sm">
             <li><a href=/ class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Home</a></li>
-            <li><a href=search class="text-white flex items-center px-4 py-2 rounded-md bg-green-700 hover:bg-green-700 hover:text-white transition-all">Discover</a></li>
-            <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Friends</a></li>
+            <li><a href=/search class="text-white flex items-center px-4 py-2 rounded-md bg-green-700 hover:bg-green-700 hover:text-white transition-all">Discover</a></li>
+            <li><a href=/friends class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Friends</a></li>
             <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Chat</a></li>
             <li><a href="#" class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Workspaces</a></li>
-            <li><a href=/log_out class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Profile</a></li>
+            <li><a href=/my_profile class="text-white flex items-center px-4 py-2 rounded-md hover:bg-green-700 hover:text-white transition-all">Profile</a></li>
           </ul>
         </nav>
         <div class="absolute bottom-0 left-0 p-4">
@@ -47,7 +47,7 @@
                         </div>
                         <div class="dropdown-menu" id="dropdown-menu" role="menu">
                             <div class="dropdown-content">
-                                <a href="#" class="dropdown-item">
+                                <a href=my_profile class="dropdown-item">
                                     Profile
                                 </a>
                                 <a href="#" class="dropdown-item">
@@ -73,58 +73,56 @@
         <!-- Parent element -->
 <!-- Parent element -->
 <div class="min-h-screen flex-grow flex items-center justify-center -mt-20">
-    <!-- Centered div -->
-    <div class="p-10 max-w-md mx-0 flex flex-col items-center justify-center bg-white rounded-lg shadow-lg" style="border: solid .5px rgb(81, 142, 81);">
-      <div id="preferences">
-        <form id="location-preferences-form" class="text-center" action="/search" method="POST">
-          <label for="preferences" class="text-2xl font-semibold">Preferences</label><br><br>
-          <form id="my-form" class="border rounded p-2 mb-4 w-200 text-center">
+  <!-- Centered div -->
+  <div class="p-10 max-w-md mx-0 flex flex-col items-center justify-center bg-white rounded-lg shadow-lg" style="border: solid .5px rgb(81, 142, 81);">
+    <div id="preferences">
+      <form id="location-preferences-form" class="text-center" action="/search" method="POST">
+        <label for="preferences" class="text-2xl font-semibold">Preferences</label><br><br>
+        <div class="border rounded p-2 mb-4 w-200 text-center">
             <div class="grid grid-cols-3 gap-4">
-                <div>
-                    <input type="checkbox" name="preferences" value="Quiet" class="mr-2">
-                    <label for="Quiet" class="text-green-700">Quiet</label>
-                </div>
-                <div>
-                    <input type="checkbox" name="preferences" value="Free Wifi" class="mr-2">
-                    <label for="Free Wifi" class="text-green-700">Free Wifi</label>
-                </div>
-                <div>
-                    <input type="checkbox" name="preferences" value="Outlets" class="mr-2">
-                    <label for="Outlets" class="text-green-700">Outlets</label>
-                </div>
-                <div style="display: inline;">
-                    <input type="checkbox" name="preferences" value="Reservations" class="mr-2">
-                    <label for="Wheelchair Accessible" class="text-green-700">Wheelchair Accessible</label>
-                </div>
-                <div>
-                    <input type="checkbox" name="preferences" value="Bike Parking" class="mr-2">
-                    <label for="Bike Parking" class="text-green-700">Bike Parking</label>
-                </div>
-                <div>
-                    <input type="checkbox" name="preferences" value="Moderate Noise" class="mr-2">
-                    <label for="Moderate Noise" class="text-green-700">Moderate Noise</label>
-                </div>
-                <div>
-                    <input type="checkbox" name="preferences" value="Good For Kids" class="mr-2">
-                    <label for="Good For Kids" class="text-green-700">Good For Kids</label>
-                </div>
-                <div>
-                    <input type="checkbox" name="preferences" value="GVegan Options" class="Gmr-2">
-                    <label for="Vegan Options" class="text-green-700">Vegan Options</label>
-                </div>
-                <div>
-                    <input type="checkbox" name="Gpreferences" value="Outdoor Seating" class="Gmr-2">
-                    <label for="Outdoor Seating" class="text-green-700">Outdoor Seating</label>
-                </DIV></div><br>
-  
-          <!-- List -->
-          <div id="my-list" class="flex flex-wrap"></div>
-  
-          <label for="text" class="block mb-2 font-bold text-green-900">Where are you located?</label>
-          <input type="text" name="location" placeholder="New York" class="border border-black-sm rounded-lg pl-3"><br><br>
-
-          <input type="submit" value="Submit" onclick="event.preventDefault(); document.getElementById('location-preferences-form').submit();" class="px-9 py-2 rounded-lg bg-green-900 text-white text-base md:text-lg font-medium hover:bg-green-700 cursor-pointer transition-all">
-
+                <button type="button" name="preferences" value="Quiet" class="btn mr-2">Quiet</button>
+                <button type="button" name="preferences" value="Free Wifi" class="btn mr-2">Free Wifi</button>
+                <button type="button" name="preferences" value="Outlets" class="btn mr-2">Outlets</button>
+                <button type="button" name="preferences" value="Wheelchair Accessible" class="btn mr-2">Wheelchair Accessible</button>
+                <button type="button" name="preferences" value="Bike Parking" class="btn mr-2">Bike Parking</button>
+                <button type="button" name="preferences" value="Moderate Noise" class="btn mr-2">Moderate Noise</button>
+                <button type="button" name="preferences" value="Good For Kids" class="btn mr-2">Good For Kids</button>
+                <button type="button" name="preferences" value="Vegan Options" class="btn mr-2">Vegan Options</button>
+                <button type="button" name="preferences" value="Outdoor Seating" class="btn mr-2">Outdoor Seating</button>
+            </div><br>
+        </div>
+        <input type="text" name="location" placeholder="Enter location" class="border border-black-sm rounded-lg pl-3">
+        <button type="submit" class="px-9 py-2 rounded-lg bg-green-900 text-white text-base md:text-lg font-medium hover:bg-green-700 cursor-pointer transition-all">Submit</button>
+    </form>
+    </div>
+  </div>
+</div>
+        
+        <style>
+          .btn {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #333;
+            cursor: pointer;
+          }
+          
+          .btn.selected {
+            background-color: #4CAF50;
+            color: white;
+          }
+        </style>
+        
+        <script>
+          const buttons = document.querySelectorAll('.btn');
+          
+          buttons.forEach(button => {
+            button.addEventListener('click', () => {
+              button.classList.toggle('selected');
+            });
+          });
+        </script>
         </form>
       </div>
     </div>
